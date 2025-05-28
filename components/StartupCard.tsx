@@ -4,19 +4,16 @@ import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 import { Button } from './ui/button'
+import { formatDate } from '@/lib/utils'
 
 const StartupCard = ({ post }: { post: StartupTypeCard }) => {
-    const { title, description, image, _createdAt, views, author: { name, id: authorId }, _id, category } = post;
+    const { title, description, image, _createdAt, views, author: { name, id: authorId, image: authorImg }, _id, category } = post;
 
     return (
         <li className='startup-card group'>
             <div className="flex-between">
                 <p className="startup_card_date">
-                    {_createdAt.toLocaleDateString('en-US', {
-                        day: 'numeric',
-                        month: 'short',
-                        year: 'numeric',
-                    })}
+                    {formatDate(_createdAt)}
                 </p>
                 <div className="flex gap-1.5">
                     <EyeIcon className='size-6 text-primary' />
@@ -34,7 +31,7 @@ const StartupCard = ({ post }: { post: StartupTypeCard }) => {
                     </Link>
                 </div>
                 <Link href={`/user/${authorId}`}>
-                    <Image src="https://placehold.co/48x48" alt='placeholder' width={48} height={48} className='rounded-full' />
+                    <Image src={authorImg} alt='placeholder' width={48} height={48} className='rounded-full' />
                 </Link>
             </div>
 

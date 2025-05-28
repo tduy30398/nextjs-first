@@ -1,14 +1,16 @@
 import React from 'react'
 import SearchForm from '../../components/SearchForm';
 import StartupCard from '@/components/StartupCard';
+import { client } from '@/sanity/lib/client';
+import { STARTUP_QUERY } from '@/sanity/lib/queries';
 
-export type StartupTypeCard = {
+export interface StartupTypeCard {
   title: string;
   description: string;
   image: string;
-  _createdAt: Date;
+  _createdAt: string;
   views: number;
-  author: { id: number, name: string };
+  author: { id: number, name: string, bio: string, image: string };
   _id: number;
   category: string;
 };
@@ -16,18 +18,7 @@ export type StartupTypeCard = {
 const Home = async ({ searchParams }: { searchParams: { query: string } }) => {
   const query = (await searchParams)?.query || '';
 
-  const post: StartupTypeCard[] = [
-    {
-      title: 'Startup 1',
-      description: 'Description for Startup 1',
-      image: 'https://picsum.photos/200',
-      _createdAt: new Date(),
-      views: 100,
-      author: { id: 1, name: 'John Doe' },
-      _id: 1,
-      category: 'Technology',
-    },
-  ];
+  const posts: StartupTypeCard[] = await client.fetch(STARTUP_QUERY);
 
   return (
     <>
@@ -47,8 +38,8 @@ const Home = async ({ searchParams }: { searchParams: { query: string } }) => {
           {query ? `Search results for "${query}"` : 'All Startups'}
         </p>
         <ul className='mt-7 card_grid'>
-          {post.length > 0 ? (
-            post.map((item) => (
+          {posts.length > 0 ? (
+            posts.map((item) => (
               <StartupCard key={item._id} post={item} />
             ))
           ) : (
