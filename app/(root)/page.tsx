@@ -1,8 +1,8 @@
 import React from 'react'
 import SearchForm from '../../components/SearchForm';
 import StartupCard from '@/components/StartupCard';
-import { client } from '@/sanity/lib/client';
 import { STARTUP_QUERY } from '@/sanity/lib/queries';
+import { sanityFetch, SanityLive } from '@/sanity/lib/live';
 
 export interface StartupTypeCard {
   title: string;
@@ -18,7 +18,7 @@ export interface StartupTypeCard {
 const Home = async ({ searchParams }: { searchParams: { query: string } }) => {
   const query = (await searchParams)?.query || '';
 
-  const posts: StartupTypeCard[] = await client.fetch(STARTUP_QUERY);
+  const {data: posts} = await sanityFetch({query: STARTUP_QUERY});
 
   return (
     <>
@@ -39,7 +39,7 @@ const Home = async ({ searchParams }: { searchParams: { query: string } }) => {
         </p>
         <ul className='mt-7 card_grid'>
           {posts.length > 0 ? (
-            posts.map((item) => (
+            posts.map((item: StartupTypeCard) => (
               <StartupCard key={item._id} post={item} />
             ))
           ) : (
@@ -47,6 +47,8 @@ const Home = async ({ searchParams }: { searchParams: { query: string } }) => {
           )}
         </ul>
       </section>
+
+      <SanityLive />
     </>
   );
 }
