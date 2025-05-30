@@ -3,6 +3,7 @@ import SearchForm from '../../components/SearchForm';
 import StartupCard from '@/components/StartupCard';
 import { STARTUP_QUERY } from '@/sanity/lib/queries';
 import { sanityFetch, SanityLive } from '@/sanity/lib/live';
+import { QueryParams } from 'next-sanity';
 
 export interface StartupTypeCard {
   title: string;
@@ -10,7 +11,7 @@ export interface StartupTypeCard {
   image: string;
   _createdAt: string;
   views: number;
-  author: { id: number, name: string, bio: string, image: string };
+  author: { _id: number, name: string, bio: string, image: string };
   _id: number;
   category: string;
 };
@@ -18,7 +19,11 @@ export interface StartupTypeCard {
 const Home = async ({ searchParams }: { searchParams: { query: string } }) => {
   const query = (await searchParams)?.query || '';
 
-  const {data: posts} = await sanityFetch({query: STARTUP_QUERY});
+  const params: QueryParams  = {
+    search: query || null,
+  };
+
+  const {data: posts} = await sanityFetch({query: STARTUP_QUERY , params});
 
   return (
     <>

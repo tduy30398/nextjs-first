@@ -7,7 +7,7 @@ import { Button } from './ui/button'
 import { formatDate } from '@/lib/utils'
 
 const StartupCard = ({ post }: { post: StartupTypeCard }) => {
-    const { title, description, image, _createdAt, views, author: { name, id: authorId, image: authorImg }, _id, category } = post;
+    const { title, description, image, _createdAt, views, author: { name, _id: authorId, image: authorImg }, _id, category } = post;
 
     return (
         <li className='startup-card group'>
