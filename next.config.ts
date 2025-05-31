@@ -9,6 +9,12 @@ const nextConfig: NextConfig = {
       },
     ],
     dangerouslyAllowSVG: true,
+  },
+  experimental: {},
+  devIndicators: {
+    buildActivity: true,
+    buildActivityPosition: 'bottom-right',
+    appIsrStatus: true,
   }
 };
 

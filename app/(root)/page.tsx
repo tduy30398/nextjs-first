@@ -11,19 +11,20 @@ export interface StartupTypeCard {
   image: string;
   _createdAt: string;
   views: number;
-  author: { _id: number, name: string, bio: string, image: string };
+  author: { _id: number, name: string, bio: string, image: string, userName: string };
   _id: number;
   category: string;
+  pitch?: string;
 };
 
 const Home = async ({ searchParams }: { searchParams: { query: string } }) => {
   const query = (await searchParams)?.query || '';
 
-  const params: QueryParams  = {
+  const params: QueryParams = {
     search: query || null,
   };
 
-  const {data: posts} = await sanityFetch({query: STARTUP_QUERY , params});
+  const { data: posts } = await sanityFetch({ query: STARTUP_QUERY, params });
 
   return (
     <>
