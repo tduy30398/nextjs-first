@@ -24,7 +24,9 @@ const Home = async ({ searchParams }: { searchParams: { query: string } }) => {
     search: query || null,
   };
 
-  const { data: posts } = await sanityFetch({ query: STARTUP_QUERY, params });
+  const data = await sanityFetch({ query: STARTUP_QUERY, params });
+  
+  const postData: StartupTypeCard[] = data.data;
 
   return (
     <>
@@ -44,8 +46,8 @@ const Home = async ({ searchParams }: { searchParams: { query: string } }) => {
           {query ? `Search results for "${query}"` : 'All Startups'}
         </p>
         <ul className='mt-7 card_grid'>
-          {posts.length > 0 ? (
-            posts.map((item: StartupTypeCard) => (
+          {postData?.length > 0 ? (
+            postData.map((item) => (
               <StartupCard key={item._id} post={item} />
             ))
           ) : (
