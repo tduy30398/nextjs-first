@@ -4,7 +4,8 @@ import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 import { Button } from './ui/button'
-import { formatDate } from '@/lib/utils'
+import { cn, formatDate } from '@/lib/utils'
+import { Skeleton } from './ui/skeleton'
 
 const StartupCard = ({ post }: { post: StartupTypeCard }) => {
     const { title, description, image, _createdAt, views, author: { name, _id: authorId, image: authorImg }, _id, category } = post;
@@ -56,5 +57,15 @@ const StartupCard = ({ post }: { post: StartupTypeCard }) => {
         </li>
     )
 }
+
+export const StartupCardSkeletion = () => (
+    <>
+    {[0, 1, 2, 3, 4].map((index: number) => (
+        <li key={cn("skeletion", index)}>
+            <Skeleton className='startup-card_skeleton' />
+        </li>
+    ))}
+    </>
+)
 
 export default StartupCard
