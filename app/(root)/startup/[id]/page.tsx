@@ -18,9 +18,10 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
 
   const id = (await params).id;
 
-  const post: StartupTypeCard = await client.fetch(STARTUP_QUERY_BY_ID_QUERY, { id });
-
-  const { select: editorPost } = await client.fetch(PLAYLIST_BY_SLUG_QUERY, { slug: 'editor-picks' })
+  const [post, { select: editorPost }] = await Promise.all([
+    client.fetch(STARTUP_QUERY_BY_ID_QUERY, { id }),
+    client.fetch(PLAYLIST_BY_SLUG_QUERY, { slug: 'editor-picks' })
+  ]);
 
   if (!post) {
     notFound();
